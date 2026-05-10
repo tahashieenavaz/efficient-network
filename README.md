@@ -1,2 +1,14 @@
 # karamad
 PyTorch implementation of EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks by Mingxing Tan and Quoc V. Le.
+
+## Citation
+
+```bibtex
+@article{1905.11946,
+    Title = {EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks},
+    Author = {Mingxing Tan and Quoc V. Le},
+    Year = {2019},
+    Eprint = {arXiv:1905.11946},
+    Howpublished = {International Conference on Machine Learning, 2019},
+}
+```
