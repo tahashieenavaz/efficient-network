@@ -2,6 +2,7 @@ import torch
 import inspect
 from typing import Type
 from typing import Literal
+from typing import Optional
 
 
 class ConvolutionalModule(torch.nn.Module):
@@ -14,8 +15,8 @@ class ConvolutionalModule(torch.nn.Module):
         stride: int = 1,
         groups: int = 1,
         padding: Literal["same", "valid"] | int = "same",
-        activation: Type[torch.nn.Module] = torch.nn.SiLU,
-        normalization_epsilon: float = 1e-05,
+        activation: Optional[Type[torch.nn.Module]] = torch.nn.SiLU,
+        normalization_epsilon: float = 0.001,
         normalization_momentum: float = 0.1,
     ):
         super().__init__()
@@ -34,8 +35,11 @@ class ConvolutionalModule(torch.nn.Module):
         self.__initialize_activation(activation=activation, out_channels=out_channels)
 
     def __initialize_activation(
-        self, *, activation: Type[torch.nn.Module], out_channels: int
+        self, *, activation: Optional[Type[torch.nn.Module]], out_channels: int
     ):
+        if activation is None:
+            self.activation = torch.nn.Identity()
+
         signature = inspect.signature(activation)
         params = signature.parameters
 

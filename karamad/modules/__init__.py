@@ -1,2 +1,3 @@
 from .ConvolutionalModule import ConvolutionalModule
 from .SqueezeExcitationModule import SqueezeExcitationModule
+from .StochasticDepthModule import StochasticDepthModule
