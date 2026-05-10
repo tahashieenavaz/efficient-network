@@ -13,7 +13,7 @@ class ConvolutionalBlock(torch.nn.Module):
         kernel: int,
         stride: int = 1,
         groups: int = 1,
-        padding: Literal["same", "valid"] | int = "SAME",
+        padding: Literal["same", "valid"] | int = "same",
         activation: Type[torch.nn.Module] = torch.nn.SiLU,
         normalization_epsilon: float = 1e-05,
         normalization_momentum: float = 0.1,
@@ -26,6 +26,7 @@ class ConvolutionalBlock(torch.nn.Module):
             stirde=stride,
             padding=padding,
             groups=groups,
+            bias=False,
         )
         self.normalization = torch.nn.BatchNorm2d(
             out_channels, eps=normalization_epsilon, momentum=normalization_momentum
