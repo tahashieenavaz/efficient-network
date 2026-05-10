@@ -4,7 +4,7 @@ from typing import Type
 from typing import Literal
 
 
-class ConvolutionalBlock(torch.nn.Module):
+class ConvolutionalModule(torch.nn.Module):
     def __init__(
         self,
         in_channels: int,

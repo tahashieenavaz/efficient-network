@@ -1,1 +1,2 @@
-from .ConvolutionalBlock import ConvolutionalBlock
+from .ConvolutionalModule import ConvolutionalModule
+from .SqueezeExcitationModule import SqueezeExcitationModule
