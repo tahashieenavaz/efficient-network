@@ -1,5 +1,22 @@
-# karamad
+# Karamad
+
 PyTorch implementation of EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks by Mingxing Tan and Quoc V. Le.
+
+## Installation
+
+```bash
+pip install karamad
+```
+
+## Usage
+
+```py
+from karamad import EfficientNet
+
+model = EfficientNet()
+
+training_loop(model)
+```
 
 ## Citation
 
