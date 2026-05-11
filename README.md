@@ -1,6 +1,6 @@
 # Efficient Networks V2 Implementation
 
-PyTorch implementation of EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks by Mingxing Tan and Quoc V. Le.
+PyTorch implementation of EfficientNetV2: Smaller Models and Faster Training by Mingxing Tan and Quoc V. Le.
 
 ## Installation
 
