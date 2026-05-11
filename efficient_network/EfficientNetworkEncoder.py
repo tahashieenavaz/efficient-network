@@ -4,6 +4,8 @@ import torch
 class EfficientNetworkEncoder(torch.nn.Module):
     def __init__(self):
         super().__init__()
+        config = EfficientNetworkConfig(variant).get()
+
         feats = [ConvBlock(3, 24, 3, 2)]
         b_idx = 0
 

@@ -2,16 +2,15 @@ import torch
 
 
 class StochasticDepthModule(torch.nn.Module):
-    def __init__(self, probability: float):
+    def __init__(self, drop_probability: float):
         super().__init__()
-        self.probability = probability
+        self.drop_probability = drop_probability
+        self.survival_rate = 1.0 - self.drop_probability
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        if not self.training or self.p == 0.0:
+    def forward(self, x):
+        if not self.training or self.drop_probability == 0.0:
             return x
 
-        keep_probability = 1.0 - self.probability
-        mask = (torch.rand(x.size(0), 1, 1, 1, device=x.device) < keep_probability).to(
-            x.dtype
-        )
-        return x * mask / keep_probability
+        random_tensor = torch.rand(x.size(0), 1, 1, 1, device=x.device)
+        binary_mask = (random_tensor < self.survival_rate).to(x.dtype)
+        return x * binary_mask / self.survival_rate
