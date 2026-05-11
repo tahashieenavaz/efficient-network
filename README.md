@@ -21,11 +21,11 @@ training_loop(model)
 ## Citation
 
 ```bibtex
-@article{1905.11946,
-    Title = {EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks},
+@article{2104.00298,
+    Title = {EfficientNetV2: Smaller Models and Faster Training},
     Author = {Mingxing Tan and Quoc V. Le},
-    Year = {2019},
-    Eprint = {arXiv:1905.11946},
-    Howpublished = {International Conference on Machine Learning, 2019},
+    Year = {2021},
+    Eprint = {arXiv:2104.00298},
+    Howpublished = {International Conference on Machine Learning, 2021},
 }
 ```
