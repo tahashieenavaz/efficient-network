@@ -1,57 +1,31 @@
 import torch
-import inspect
-from typing import Type
-from typing import Literal
-from typing import Optional
 
 
-class ConvolutionalModule(torch.nn.Module):
+class ConvolutionalModule(torch.nn.Sequential):
     def __init__(
         self,
         in_channels: int,
         out_channels: int,
-        *,
-        kernel: int,
-        stride: int = 1,
+        kernel_size: int | tuple = 3,
+        stride: int | tuple = 1,
         groups: int = 1,
-        padding: Literal["same", "valid"] | int = "same",
-        activation: Optional[Type[torch.nn.Module]] = torch.nn.SiLU,
-        normalization_epsilon: float = 0.001,
-        normalization_momentum: float = 0.1,
+        use_activation: bool = True,
+        momentum: float = 0.1,
+        epsilon: float = 0.001,
     ):
-        super().__init__()
-        self.convolutional = torch.nn.Conv2d(
-            in_channels,
-            out_channels,
-            kernel_size=kernel,
-            stirde=stride,
-            padding=padding,
-            groups=groups,
-            bias=False,
-        )
-        self.normalization = torch.nn.BatchNorm2d(
-            out_channels, eps=normalization_epsilon, momentum=normalization_momentum
-        )
-        self.__initialize_activation(activation=activation, out_channels=out_channels)
-
-    def __initialize_activation(
-        self, *, activation: Optional[Type[torch.nn.Module]], out_channels: int
-    ):
-        if activation is None:
-            self.activation = torch.nn.Identity()
-
-        signature = inspect.signature(activation)
-        params = signature.parameters
-
-        if "channels" in params:
-            self.activation = activation(channels=out_channels)
-        elif "in_channels" in params:
-            self.activation = activation(in_channels=out_channels)
-        else:
-            self.activation = activation()
-
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        x = self.convolutional(x)
-        x = self.normalization(x)
-        x = self.activation(x)
-        return x
+        padding = kernel_size // 2
+        layers = [
+            torch.nn.Conv2d(
+                in_channels,
+                out_channels,
+                kernel_size,
+                stride=stride,
+                padding=padding,
+                groups=groups,
+                bias=False,
+            ),
+            torch.nn.BatchNorm2d(out_channels, eps=epsilon, momentum=momentum),
+        ]
+        if use_activation:
+            layers.append(torch.nn.SiLU(inplace=True))
+        super().__init__(*layers)
