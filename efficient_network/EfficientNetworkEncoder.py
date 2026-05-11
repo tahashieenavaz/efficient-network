@@ -1,29 +1,44 @@
 import torch
+from .EfficientNetworkConfig import EfficientNetworkConfig
+from .modules import ConvolutionalModule
+from .modules import EfficientModule
 
 
 class EfficientNetworkEncoder(torch.nn.Module):
-    def __init__(self):
+    def __init__(self, variant: str, feature_dimension: int, in_channels: int):
         super().__init__()
         config = EfficientNetworkConfig(variant).get()
 
-        feats = [ConvBlock(3, 24, 3, 2)]
-        b_idx = 0
+        layers = [
+            ConvolutionalModule(
+                in_channels=in_channels, out_channels=24, kernel_size=3, stride=2
+            )
+        ]
 
-        for repeats, in_channels, out_channels, exp, stride, fused in cfg:
+        block_index = 0
+        for repeats, in_c, out_c, exp_ratio, stride, is_fused in config:
             for i in range(repeats):
-                feats.append(
-                    EfficientBlock(
-                        in_channels if i == 0 else out_channels,
-                        out_channels,
-                        exp,
-                        stride if i == 0 else 1,
-                        fused,
-                        0.005 * b_idx,
+                current_stride = stride if i == 0 else 1
+                current_in_channels = in_c if i == 0 else out_c
+                drop_prob = 0.005 * block_index
+                layers.append(
+                    EfficientModule(
+                        in_channels=current_in_channels,
+                        out_channels=out_c,
+                        expand_ratio=exp_ratio,
+                        stride=current_stride,
+                        is_fused=is_fused,
+                        drop_prob=drop_prob,
                     )
                 )
-                b_idx += 1
+                block_index += 1
 
-        feats.append(ConvBlock(256, 1280, 1))
+        layers.append(
+            ConvolutionalModule(
+                in_channels=256, out_channels=feature_dimension, kernel_size=1, stride=1
+            )
+        )
+        self.stream = torch.nn.Sequential(*layers)
 
     def forward(self, images: torch.Tensor) -> torch.Tensor:
-        pass
+        return self.stream(images)
