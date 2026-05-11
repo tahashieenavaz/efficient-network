@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0", "wheel", "setuptools_scm"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "karamad"
+name = "efficient-network"
 version = "0.0.01"
 authors = [
   { name="Taha Shieenavaz", email="tahashieenavaz@gmail.com" },
@@ -20,13 +20,13 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dependencies = ["torch"]
-keywords = ["image classification", "deep learning", "karamad", "efficient networks", "efficient"]
+keywords = ["image classification", "deep learning", "efficient networks", "efficient", "image"]
 license = { file = "LICENSE" }
-urls = { Homepage="https://github.com/tahashieenavaz/karamad", Repository="https://github.com/tahashieenavaz/karamad", Documentation="https://github.com/tahashieenavaz/karamad#readme" }
+urls = { Homepage="https://github.com/tahashieenavaz/efficient_network", Repository="https://github.com/tahashieenavaz/efficient_network", Documentation="https://github.com/tahashieenavaz/efficient_network#readme" }
 
 [tool.setuptools.packages.find]
 where = ["."]
 exclude = ["tests*", "docs*", "figures*", "mermaid*", "scripts*"]
 
 [tool.setuptools.package-data]
-karamad = ["*.md", "*.txt", "*.png"]
+efficient_network = ["*.md", "*.txt", "*.png"]
